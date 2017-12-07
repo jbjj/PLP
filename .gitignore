@@ -1,8 +1,18 @@
 *.lock
+*.class
 .metadata/
 .recommenders/
 
-*/bin/
-*/.classpath
-*/.project
-*/.settings
+**/bin
+**/.classpath
+**/.project
+**/.settings
+**/target
+
+**/.Thumbs.db
+**/.DS_Store
+**/src-gen/
+**/xtend-gen/
+**/plugin.xml_gen
+**/dependency-reduced-pom.xml
+**/generated
