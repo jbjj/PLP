@@ -1,0 +1,55 @@
+grammar com.poli.ads.funcional.Funcional1 with org.eclipse.xtext.common.Terminals
+
+generate funcional1 "http://www.poli.com/ads/funcional/Funcional1"
+
+//---------------------------------------------------------------------------
+
+Programa: exps+=Expressao*;
+
+Expressao: 
+	{Expressao} exp=(
+		  Atom
+		| ExpUnaria
+		| ExpDeclaracao
+		| Aplicacao
+		| IfThenElse
+	) bin=ExpBinaria? ;
+
+ExpUnaria : 
+	  {ExpNeg}	"-" exp=Expressao 
+	| {ExpNot}  "not" exp=Expressao 
+	| {ExpLen}	"length" exp=Expressao;
+
+ExpBinaria : 
+	  {ExpSoma}	"+" exp=Expressao
+	| {ExpSub}	"-" exp=Expressao
+	| {ExpAnd}	"and" exp=Expressao
+	| {ExpOr}	"or" exp=Expressao
+	| {ExpEq}	"==" exp=Expressao
+	| {ExpInc}	"++" exp=Expressao;
+ 
+ExpDeclaracao : "let" decl=DeclaracaoFuncional "in" exp=Expressao;
+
+Atom : {ExpAtom} (Valor | ID);
+
+DeclaracaoFuncional : decl=(DecVariavel | DecFuncao) comp=DecComposta?;
+
+DecVariavel	: "var" name=ID "=" exp=Expressao;
+DecFuncao	: "fun" ids=ListID "=" exp=Expressao;
+DecComposta	: "," decl=DeclaracaoFuncional;
+
+Aplicacao: name=ID "(" exps=ListExp ")";
+
+ListExp : exps+=Expressao (',' exps+=ListExp)?;
+
+IfThenElse : "if" cond=Expressao "then" then=Expressao "else" else=Expressao;
+
+Valor			: ValorConcreto;
+ValorConcreto	: VALOR_INTEIRO | VALOR_BOOLEANO |VALOR_STRING;
+ListID 			: ID | ID ListID;
+
+//---------------------------------------------------------------------------
+
+terminal VALOR_INTEIRO	: INT ;
+terminal VALOR_BOOLEANO	: "true" | "false" ;
+terminal VALOR_STRING	: STRING ;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension point="org.eclipse.emf.ecore.generated_package">
+		<package 
+			uri = "http://www.poli.com/ads/funcional/Funcional1"
+			class = "com.poli.ads.funcional.funcional1.Funcional1Package"
+			genModel = "model/generated/Funcional1.genmodel" />
+	</extension>
+</plugin>

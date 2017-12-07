@@ -1,9 +1,0 @@
-grammar com.poli.funcional.Funcional1 with org.eclipse.xtext.common.Terminals
-
-generate funcional1 "http://www.poli.com/funcional/Funcional1"
-
-Model:
-	greetings+=Greeting*;
-	
-Greeting:
-	'Hello' name=ID '!';
