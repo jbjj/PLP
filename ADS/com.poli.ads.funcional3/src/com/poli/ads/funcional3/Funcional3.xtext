@@ -1,0 +1,86 @@
+/*
+ * Projeto ADS 2017.2
+ * POLI-UPE
+ * 
+ *   - Linguagem Funcional 3
+ * 
+ * Rubens Carneiro
+ */
+ 
+grammar com.poli.ads.funcional3.Funcional3 with org.eclipse.xtext.common.Terminals
+
+generate funcional3 "http://www.poli.com/ads/funcional3/Funcional3"
+
+//---------------------------------------------------------------------------
+
+Programa: exp=Expressao;
+
+Expressao: 
+	{Expressao} exp=(
+		  Atom
+		| ExpUnaria
+		| ExpDeclaracao
+		| IfThenElse
+		| Parenteses
+	) rhs=( ExpBinaria | Aplicacao | ExpCompreensaoLista )? ;
+
+Parenteses: {Parenteses} '('exp=Expressao')'; 
+
+ExpUnaria : 
+	  {ExpNeg}	"-" exp=Expressao 
+	| {ExpNot}  "not" exp=Expressao 
+	| {ExpLen}	"length" exp=Expressao
+	| {ExpHead} "head" '(' exp=Expressao ')' 
+  	| {ExpTail} "tail" '(' exp=Expressao ')' ;
+
+ExpCompreensaoLista : {ExpCmp} ger=Gerador ftr=Filtro?;
+
+Gerador : 
+	  "for" id=ID "in" exp=Expressao ("," ger=Gerador)?;
+
+Filtro : "if" exp=Expressao;
+                
+ExpBinaria : 
+	  {ExpSoma}	"+" exp=Expressao
+	| {ExpSub}	"-" exp=Expressao
+	| {ExpAnd}	"and" exp=Expressao
+	| {ExpOr}	"or" exp=Expressao
+	| {ExpEq}	"==" exp=Expressao
+	| {ExpInc}	"++" exp=Expressao		
+	| {ExpMul}  "*" exp=Expressao
+	| {ExpGt}   ">" exp=Expressao
+	| {ExpLt}   "<" exp=Expressao
+	| {ExpPp} 	".." exp=Expressao
+	| {ExpDp} 	":" exp=Expressao
+	| {ExpDc}	"^^" exp=Expressao ;
+
+Aplicacao: {Aplicacao} "(" arg=ListExp ")";
+ 
+IfThenElse : "if" cond=Expressao "then" then=Expressao "else" else=Expressao;
+
+ExpDeclaracao : "let" decl=DeclaracaoFuncional "in" exp=Expressao;
+
+Atom : {ExpAtom} (val=Valor | id=ID);
+
+DeclaracaoFuncional : decl=(DecVariavel | DecFuncao) comp=DecComposta?;
+
+DecVariavel	: "var" name=ID "=" exp=Expressao;
+DecFuncao	: "fun" ids=ListID "=" exp=Expressao;
+DecComposta	: "," decl=DeclaracaoFuncional;
+
+ListExp : exps+=Expressao (',' exps+=ListExp)?;
+
+Valor			: {Valor} con=ValorConcreto | abs=ValorAbstrato;
+ValorAbstrato	: ValorFuncao;
+ValorFuncao		: "fn" ids+=ID ids+=ID "." exp=Expressao;
+ValorConcreto	: VALOR_INTEIRO | VALOR_BOOLEANO |VALOR_STRING | VALOR_LISTA;
+
+ListID 			: ID | ID ListID;
+
+//---------------------------------------------------------------------------
+
+terminal VALOR_INTEIRO	: INTEIRO ;
+terminal VALOR_BOOLEANO	: "true" | "false" ;
+terminal VALOR_STRING	: STRING ;
+terminal VALOR_LISTA		: '[' (INTEIRO (',' INTEIRO)* )? ']';
+terminal INTEIRO			: '-'? INT;
