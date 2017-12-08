@@ -1,51 +1,69 @@
+/*
+ * Projeto ADS 2017.2
+ * POLI-UPE
+ * 
+ *   - Linguagem Funcional 2
+ * 
+ * Rubens Carneiro
+ */
+ 
 grammar com.poli.ads.funcional2.Funcional2 with org.eclipse.xtext.common.Terminals
 
 generate funcional2 "http://www.poli.com/ads/funcional2/Funcional2"
 
-Model:
-	greetings+=Greeting*;
+//---------------------------------------------------------------------------
+
+Programa: exp=Expressao;
+
+Expressao: 
+	{Expressao} exp=(
+		  Atom
+		| ExpUnaria
+		| ExpDeclaracao
+		| IfThenElse
+		| Parenteses
+	) rhs=( ExpBinaria | Aplicacao )? ;
+
+Parenteses: {Parenteses} '('exp=Expressao')'; 
+
+ExpUnaria : 
+	  {ExpNeg}	"-" exp=Expressao 
+	| {ExpNot}  "not" exp=Expressao 
+	| {ExpLen}	"length" exp=Expressao;
+
+ExpBinaria : 
+	  {ExpSoma}	"+" exp=Expressao
+	| {ExpSub}	"-" exp=Expressao
+	| {ExpAnd}	"and" exp=Expressao
+	| {ExpOr}	"or" exp=Expressao
+	| {ExpEq}	"==" exp=Expressao
+	| {ExpInc}	"++" exp=Expressao;
 	
-Greeting:
-	'Hello' name=ID '!';
+Aplicacao: {Aplicacao} "(" arg=ListExp ")";
+ 
+IfThenElse : "if" '('cond=Expressao')' "then" then=Expressao "else" else=Expressao;
 
+ExpDeclaracao : "let" decl=DeclaracaoFuncional "in" exp=Expressao;
 
-//	Programa ::= Expressao
-//	Expressao ::= Valor
-//	| ExpUnaria
-//	| ExpBinaria
-//	| ExpDeclaracao
-//	| Id
-//	| Aplicacao
-//	| IfThenElse
-//	 
-//	Valor ::= ValorConcreto | ValorAbstrato
-//	ValorAbstrato ::= ValorFuncao
-//	
-//	ValorConcreto ::= ValorInteiro | ValorBooleano | ValorString
-//	
-//	ValorFuncao ::= "fn" ListId "." Expressao
-//	
-//	ExpUnaria ::= "-" Expressao | "not" Expressao | "length" Expressao
-//	
-//	ExpBinaria ::=     Expressao "+" Expressao
-//	| Expressao "-" Expressao
-//	| Expressao "and" Expressao
-//	| Expressao "or" Expressao
-//	| Expressao "==" Expressao
-//	| Expressao "++" Expressao
-//	 
-//	ExpDeclaracao ::= "let" DeclaracaoFuncional "in" Expressao
-//	DeclaracaoFuncional ::= DecVariavel
-//	| DecFuncao
-//	| DecComposta
-//	 
-//	DecVariavel ::= "var" Id "=" Expressao
-//	DecFuncao ::= "fun" ListId "=" Expressao
-//	
-//	DecComposta ::= DeclaracaoFuncional "," DeclaracaoFuncional
-//	
-//	ListId ::= Id  |  Id ListId
-//	
-//	Aplicacao:= Expressao"(" ListExp ")"
-//	
-//	ListExp ::= Expressao  |  Expressao, ListExp
+Atom : {ExpAtom} (val=Valor | id=ID);
+
+DeclaracaoFuncional : decl=(DecVariavel | DecFuncao) comp=DecComposta?;
+
+DecVariavel	: "var" name=ID "=" exp=Expressao;
+DecFuncao	: "fun" ids=ListID "=" exp=Expressao;
+DecComposta	: "," decl=DeclaracaoFuncional;
+
+ListExp : exps+=Expressao (',' exps+=ListExp)?;
+
+Valor			: {Valor} con=ValorConcreto | abs=ValorAbstrato;
+ValorAbstrato	: ValorFuncao;
+ValorFuncao		: "fn" ids=ListID "." exp=Expressao;
+ValorConcreto	: VALOR_INTEIRO | VALOR_BOOLEANO |VALOR_STRING;
+
+ListID 			: ID | ID ListID;
+
+//---------------------------------------------------------------------------
+
+terminal VALOR_INTEIRO	: INT ;
+terminal VALOR_BOOLEANO	: "true" | "false" ;
+terminal VALOR_STRING	: STRING ;

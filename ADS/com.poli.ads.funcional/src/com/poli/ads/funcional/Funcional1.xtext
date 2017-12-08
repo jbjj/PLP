@@ -1,10 +1,19 @@
+/*
+ * Projeto ADS 2017.2
+ * POLI-UPE
+ * 
+ *   - Linguagem Funcional 1
+ * 
+ * Rubens Carneiro
+ */
+
 grammar com.poli.ads.funcional.Funcional1 with org.eclipse.xtext.common.Terminals
 
 generate funcional1 "http://www.poli.com/ads/funcional/Funcional1"
 
 //---------------------------------------------------------------------------
 
-Programa: exp+=Expressao;
+Programa: exp=Expressao;
 
 Expressao: 
 	{Expressao} exp=(
