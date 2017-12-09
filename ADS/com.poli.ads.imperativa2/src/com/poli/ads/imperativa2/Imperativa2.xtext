@@ -1,0 +1,105 @@
+/*
+ * Projeto ADS 2017.2
+ * POLI-UPE
+ * 
+ *   - Linguagem Imperativa 2
+ * 
+ * Alexandre Silva
+ */
+
+grammar com.poli.ads.imperativa2.Imperativa2 with org.eclipse.xtext.common.Terminals
+
+generate imperativa2 "http://www.poli.com/ads/imperativa2/Imperativa2"
+
+Programa:
+	cmd = Skip;
+
+Skip:
+	{Skip} skip = Comando?
+;
+	
+Comando:
+	{Comando} cmd = (
+		Atribuicao
+		| ComandoDeclaracao
+		| While
+		| IfThenElse
+		| ComandoIO
+		| ChamadaProcedimento
+	) cmdComp = ComandoComposto?;
+
+ChamadaProcedimento:
+	"call" ID "(" ListaExpressao ")";
+
+ListaExpressao:
+	exp = Expressao comp = ListaExpressaoComposta?;
+
+ListaExpressaoComposta:
+	"," expComp = ListaExpressao; 
+	
+ComandoIO:
+	{IOWrite} "write" "(" exp = Expressao ")" 
+	|{IORead} "read" "(" ID ")";
+	
+Atribuicao: name = ID ":=" exp = Expressao;
+
+ComandoComposto: ";" cmd = Skip;
+
+ComandoDeclaracao: "{" dec = Declaracao ";" cmd = Skip "}";
+
+Declaracao:
+	{Declaracao} dec = (
+		DecVariavel
+	| DecProcedimento
+	) decComp = DecComposta? ;
+
+DecComposta: "," decl = Declaracao;
+
+DecVariavel: "var" name = ID "=" exp = Expressao;
+
+DecProcedimento:
+	"proc" name = ID "(" decLista = ListaDeclaracaoParametro ")" 
+	"{" cmd = Skip"}";
+
+ListaDeclaracaoParametro:
+	TIPO name = ID comp = ListaDeclaracaoComposta?;
+
+ListaDeclaracaoComposta:
+	"," decLista = ListaDeclaracaoParametro; 
+
+While: "while" cond = Expressao 
+			"do" do = Skip;
+	
+IfThenElse: "if" cond = Expressao 
+			"then" then = Skip 
+			"else" else = Skip;
+
+Expressao:
+	{Expressao} exp = (
+		Atom	
+		| ExpUnaria
+	) bin = ExpBinaria?;
+
+Atom: {ExpAtom} (Valor | ID);
+
+ExpUnaria: 
+	  {ExpNeg}	"-" exp = Expressao 
+	| {ExpNot}  "not" exp = Expressao 
+	| {ExpLen}	"length" exp = Expressao;
+
+ExpBinaria: 
+	  {ExpSoma}	"+" exp = Expressao
+	| {ExpSub}	"-" exp = Expressao
+	| {ExpAnd}	"and" exp = Expressao
+	| {ExpOr}	"or" exp = Expressao
+	| {ExpEq}	"==" exp = Expressao
+	| {ExpInc}	"++" exp = Expressao;
+	
+Valor: ValorConcreto;
+ValorConcreto: VALOR_INTEIRO | VALOR_BOOLEANO | VALOR_STRING;
+
+//---------------------------------------------------------------------------
+terminal TIPO			: "string" | "int" | "boolean";
+terminal VALOR_INTEIRO	: INT ;
+terminal VALOR_BOOLEANO	: "true" | "false" ;
+terminal VALOR_STRING	: STRING ;

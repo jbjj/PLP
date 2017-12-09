@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension point="org.eclipse.emf.ecore.generated_package">
+		<package 
+			uri = "http://www.poli.com/ads/imperativa2/Imperativa2"
+			class = "com.poli.ads.imperativa2.imperativa2.Imperativa2Package"
+			genModel = "model/generated/Imperativa2.genmodel" />
+	</extension>
+</plugin>

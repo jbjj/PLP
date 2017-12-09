@@ -1,3 +1,12 @@
+/*
+ * Projeto ADS 2017.2
+ * POLI-UPE
+ * 
+ *   - Linguagem Expressões 2
+ * 
+ * Alexandre Silva
+ */
+
 grammar com.poli.ads.expressoes2.Expressoes2 with org.eclipse.xtext.common.Terminals
 
 generate expressoes2 "http://www.poli.com/ads/expressoes2/Expressoes2"
@@ -14,12 +23,12 @@ Expressao:
 
 Atom : {ExpAtom} (Valor | ID);
 
-ExpUnaria : 
+ExpUnaria: 
 	  {ExpNeg}	"-" exp=Expressao 
 	| {ExpNot}  "not" exp=Expressao 
 	| {ExpLen}	"length" exp=Expressao;
 
-ExpBinaria : 
+ExpBinaria: 
 	  {ExpSoma}	"+" exp=Expressao
 	| {ExpSub}	"-" exp=Expressao
 	| {ExpAnd}	"and" exp=Expressao
@@ -27,12 +36,12 @@ ExpBinaria :
 	| {ExpEq}	"==" exp=Expressao
 	| {ExpInc}	"++" exp=Expressao;
 	
-ExpDeclaracao : "let" decl=DecVariavel "in" exp=Expressao;
+ExpDeclaracao: "let" decl=DecVariavel "in" exp=Expressao;
 
-DecVariavel	: "var" name=ID "=" exp=Expressao comp=DecComposta?;
-DecComposta : "," decl=DecVariavel;
-Valor			: ValorConcreto;
-ValorConcreto	: VALOR_INTEIRO | VALOR_BOOLEANO |VALOR_STRING;
+DecVariavel: "var" name=ID "=" exp=Expressao comp=DecComposta?;
+DecComposta: "," decl=DecVariavel;
+Valor: ValorConcreto;
+ValorConcreto: VALOR_INTEIRO | VALOR_BOOLEANO |VALOR_STRING;
 
 //---------------------------------------------------------------------------
 
