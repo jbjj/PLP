@@ -1,0 +1,41 @@
+grammar com.poli.ads.expressoes2.Expressoes2 with org.eclipse.xtext.common.Terminals
+
+generate expressoes2 "http://www.poli.com/ads/expressoes2/Expressoes2"
+
+Programa:
+	exp = Expressao;
+
+Expressao:
+	{Expressao} exp=(
+		Atom	
+		| ExpUnaria
+		| ExpDeclaracao
+	) bin=ExpBinaria?;
+
+Atom : {ExpAtom} (Valor | ID);
+
+ExpUnaria : 
+	  {ExpNeg}	"-" exp=Expressao 
+	| {ExpNot}  "not" exp=Expressao 
+	| {ExpLen}	"length" exp=Expressao;
+
+ExpBinaria : 
+	  {ExpSoma}	"+" exp=Expressao
+	| {ExpSub}	"-" exp=Expressao
+	| {ExpAnd}	"and" exp=Expressao
+	| {ExpOr}	"or" exp=Expressao
+	| {ExpEq}	"==" exp=Expressao
+	| {ExpInc}	"++" exp=Expressao;
+	
+ExpDeclaracao : "let" decl=DecVariavel "in" exp=Expressao;
+
+DecVariavel	: "var" name=ID "=" exp=Expressao comp=DecComposta?;
+DecComposta : "," decl=DecVariavel;
+Valor			: ValorConcreto;
+ValorConcreto	: VALOR_INTEIRO | VALOR_BOOLEANO |VALOR_STRING;
+
+//---------------------------------------------------------------------------
+
+terminal VALOR_INTEIRO	: INT ;
+terminal VALOR_BOOLEANO	: "true" | "false" ;
+terminal VALOR_STRING	: STRING ;

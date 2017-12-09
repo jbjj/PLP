@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension point="org.eclipse.emf.ecore.generated_package">
+		<package 
+			uri = "http://www.poli.com/ads/expressoes2/Expressoes2"
+			class = "com.poli.ads.expressoes2.expressoes2.Expressoes2Package"
+			genModel = "model/generated/Expressoes2.genmodel" />
+	</extension>
+</plugin>
