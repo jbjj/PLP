@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="oO1" nsURI="http://www.poli.com/ads/oo1/OO1" nsPrefix="oO1">
+  <eClassifiers xsi:type="ecore:EClass" name="Programa">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dec" eType="#//DecClasse"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cmd" eType="#//Skip" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Comando">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cmd" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cmdComp" eType="#//ComandoComposto"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Skip">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="skip" eType="#//Comando"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComandoComposto">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cmd" eType="#//Skip" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComDeclaracao">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dec" eType="#//DecVariavel"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cmd" eType="#//Skip" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="While">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cond" eType="#//Expressao"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="do" eType="#//Skip" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IfThenElse">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cond" eType="#//Expressao"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="then" eType="#//Skip" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="#//Skip" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChamadaMetodo">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exps" eType="#//ListaExpressao"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ListaExpressao">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comp" eType="#//ListaExpressaoComposta"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ListaExpressaoComposta">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expComp" eType="#//ListaExpressao"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="New">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//LeftExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Atribuicao">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftExp" eType="#//LeftExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IO"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Expressao">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bin" eType="#//ExpBinaria"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LeftExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="acesso" eType="#//AcessoAtributo"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AcessoAtributo">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="acessoComp" eType="#//AcessoComposto"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AcessoComposto">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="acesso" eType="#//AcessoAtributo"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecClasse">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decVar" eType="#//DecVariavel"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decProc" eType="#//DecProcedimento"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decClasseComposta" eType="#//DeclaracaoClasseComposta"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclaracaoClasseComposta">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decl" eType="#//DecClasse"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecVariavel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decComposta" eType="#//DeclaracaoComposta"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclaracaoComposta">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decl" eType="#//DecVariavel"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecProcedimento">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decLista" eType="#//ListaDeclaracaoParametro"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cmd" eType="#//Skip" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ListaDeclaracaoParametro">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comp" eType="#//ListaDeclaracaoComposta"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ListaDeclaracaoComposta">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decLista" eType="#//ListaDeclaracaoParametro"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpUnaria">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpBinaria">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Valor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IOWrite" eSuperTypes="#//IO">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IORead" eSuperTypes="#//IO"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpId" eSuperTypes="#//LeftExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpThis" eSuperTypes="#//LeftExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpNeg" eSuperTypes="#//ExpUnaria"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpNot" eSuperTypes="#//ExpUnaria"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpLen" eSuperTypes="#//ExpUnaria"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpSoma" eSuperTypes="#//ExpBinaria"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpSub" eSuperTypes="#//ExpBinaria"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpAnd" eSuperTypes="#//ExpBinaria"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpOr" eSuperTypes="#//ExpBinaria"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpEq" eSuperTypes="#//ExpBinaria"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpInc" eSuperTypes="#//ExpBinaria"/>
+</ecore:EPackage>

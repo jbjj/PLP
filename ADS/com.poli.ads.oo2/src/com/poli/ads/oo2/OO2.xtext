@@ -1,0 +1,126 @@
+/*
+ * Projeto ADS 2017.2
+ * POLI-UPE
+ * 
+ *   - Linguagem Orientada a Objeto 2
+ * 
+ * Pitágoras Borges
+ */
+
+grammar com.poli.ads.oo2.OO2 with org.eclipse.xtext.common.Terminals
+
+generate oO2 "http://www.poli.com/ads/oo2/OO2"
+
+//---------------------------------------------------------------------------
+
+ Programa : "{" dec = ListaDeclaracaoOO ";" cmd=SKip "}";
+
+ Comando: {Comando} cmd = (
+ 	
+    Atribuicao
+	| ComDeclaracao
+	| While
+	| IfThenElse
+	| IO
+	| New
+	| ChamadaMetodo
+	)cmdComp = ComandoComposto?;
+ 
+ Skip : {Skip} skip = Comando?;
+ 
+ ComandoComposto: ";" cmd = Skip;
+
+ ComDeclaracao : "{" dec = DecVariavel ";" cmd = Skip "}";
+
+ While: "while" cond = Expressao 
+			"do" do = Skip;
+
+ IfThenElse: "if" cond = Expressao 
+			"then" then = Skip ("else" else = Skip)?;
+
+ ChamadaMetodo : exp = Expressao "." ID "(" exps = ListaExpressao? ")";
+
+ ListaExpressao:
+	exp = Expressao comp = ListaExpressaoComposta?;
+	
+ ListaExpressaoComposta:
+	"," expComp = ListaExpressao;
+
+ New: exp = LeftExpression ":=" "new" ID;
+
+ Atribuicao : 
+	{Atribuicao} leftExp = LeftExpression ":=" exp = Expressao;
+
+ IO : 
+	{IOWrite} "write" "(" exp = Expressao ")" 
+	|{IORead} "read" "(" ID ")";
+
+Expressao:
+	{Expressao} exp = (
+		Valor
+		| ExpUnaria
+		| LeftExpression
+	) bin = ExpBinaria?;
+
+Valor: {Valor} ValorConcreto;
+ValorConcreto: VALOR_INTEIRO | VALOR_BOOLEANO | VALOR_STRING | VALOR_NULL | VALOR_THIS;
+Tipo: ID | TIPO_PRIMITIVO;
+
+terminal TIPO_PRIMITIVO	: "string" | "int" | "boolean";
+terminal VALOR_INTEIRO	: INT ;
+terminal VALOR_BOOLEANO	: "true" | "false" ;
+terminal VALOR_STRING	: STRING ;
+terminal VALOR_NULL		: "null" ;
+terminal VALOR_THIS		: "this" ;
+
+ExpUnaria: 
+	  {ExpNeg}	"-" exp = Expressao 
+	| {ExpNot}  "not" exp = Expressao 
+	| {ExpLen}	"length" exp = Expressao;
+
+ExpBinaria: 
+	  {ExpSoma}	"+" exp = Expressao
+	| {ExpSub}	"-" exp = Expressao
+	| {ExpAnd}	"and" exp = Expressao
+	| {ExpOr}	"or" exp = Expressao
+	| {ExpEq}	"==" exp = Expressao
+	| {ExpInc}	"++" exp = Expressao;
+	
+
+LeftExpression : 
+		{ExpId} ID acesso = AcessoAtributo?
+		|{ExpThis} VALOR_THIS acesso = AcessoAtributo;
+
+AcessoAtributo : 
+	{AcessoAtributo}"."ID acessoComp = AcessoComposto?;
+
+AcessoComposto: acesso = AcessoAtributo;
+
+ListaDeclaracaoOO :
+				 DecClasse
+				 | DecClasse "," ListaDeclaracaoOO;
+
+DecClasse : 
+	"classe" name = ID "{" decVar = DecVariavel ";" decProc = DecProcedimento "}" 
+	decClasseComposta = DeclaracaoClasseComposta;
+
+DeclaracaoClasseComposta: "," decl = DecClasse;
+
+DecVariavel: Tipo name = ID (
+		"=" exp = Expressao
+		|":=" "new" ID)
+		decComposta = DeclaracaoComposta?;
+
+DeclaracaoComposta: "," decl = DecVariavel;
+
+DecProcedimento:
+	"proc" name = ID "(" decLista = ListaDeclaracaoParametro ")" 
+	"{" cmd = Skip"}";
+
+
+ListaDeclaracaoParametro:
+	Tipo name = ID comp = ListaDeclaracaoComposta?;
+
+ListaDeclaracaoComposta:
+	"," decLista = ListaDeclaracaoParametro;
+
