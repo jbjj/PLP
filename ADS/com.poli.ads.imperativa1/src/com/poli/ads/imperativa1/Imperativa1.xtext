@@ -1,0 +1,85 @@
+/*
+ * POLI-UPE
+ * Projeto ADS 2017.2
+ * 
+ * Aluno: Marcelo Lopes
+ * 
+ * Linguagem Imperativa 1
+ *  
+ */
+ 
+grammar com.poli.ads.imperativa1.Imperativa1 with org.eclipse.xtext.common.Terminals
+
+generate imperativa1 "http://www.poli.com/ads/imperativa1/Imperativa1"
+
+Programa:
+	cmd = Skip;
+
+Skip:
+	{Skip} skip = Comando?
+;
+	
+Comando:
+	{Comando} cmd = (
+		Atribuicao
+		| ComandoDeclaracao
+		| While
+		| IfThenElse
+		| ComandoIO
+	) cmdComp = ComandoComposto?;
+
+ComandoIO:
+	{IOWrite} "write" "(" exp = Expressao ")" 
+	|{IORead} "read" "(" ID ")";
+	
+Atribuicao: name = ID ":=" exp = Expressao;
+
+ComandoComposto: ";" cmd = Skip;
+
+ComandoDeclaracao: "{" dec = Declaracao ";" cmd = Skip "}";
+
+Declaracao:
+	{Declaracao} dec = (
+		DecVariavel
+	) decComp = DecComposta? ;
+
+DecComposta: "," decl = Declaracao;
+
+DecVariavel: "var" name = ID "=" exp = Expressao;
+
+While: "while" cond = Expressao 
+			"do" do = Skip;
+	
+IfThenElse: "if" cond = Expressao 
+			"then" then = Skip 
+			"else" else = Skip;
+
+Expressao:
+	{Expressao} exp = (
+		Atom	
+		| ExpUnaria
+	) bin = ExpBinaria?;
+
+Atom: {ExpAtom} (Valor | ID);
+
+ExpUnaria: 
+	  {ExpNeg}	"-" exp = Expressao 
+	| {ExpNot}  "not" exp = Expressao 
+	| {ExpLen}	"length" exp = Expressao;
+
+ExpBinaria: 
+	  {ExpSoma}	"+" exp = Expressao
+	| {ExpSub}	"-" exp = Expressao
+	| {ExpAnd}	"and" exp = Expressao
+	| {ExpOr}	"or" exp = Expressao
+	| {ExpEq}	"==" exp = Expressao
+	| {ExpInc}	"++" exp = Expressao;
+	
+Valor: ValorConcreto;
+ValorConcreto: VALOR_INTEIRO | VALOR_BOOLEANO | VALOR_STRING;
+
+//-----------------------------------------------------------
+terminal TIPO			: "string" | "int" | "boolean";
+terminal VALOR_INTEIRO	: INT ;
+terminal VALOR_BOOLEANO	: "true" | "false" ;
+terminal VALOR_STRING	: STRING ;

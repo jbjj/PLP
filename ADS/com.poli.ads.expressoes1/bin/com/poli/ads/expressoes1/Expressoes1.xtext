@@ -1,0 +1,9 @@
+grammar com.poli.ads.expressoes1.Expressoes1 with org.eclipse.xtext.common.Terminals
+
+generate expressoes1 "http://www.poli.com/ads/expressoes1/Expressoes1"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';

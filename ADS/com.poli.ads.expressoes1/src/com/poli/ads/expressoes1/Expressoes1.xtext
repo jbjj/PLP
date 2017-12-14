@@ -1,0 +1,47 @@
+/*
+ * POLI-UPE
+ * Projeto ADS 2017.2
+ * 
+ * Aluno: Marcelo Lopes
+ * 
+ * Linguagem de Expressoes 1
+ *  
+ */
+
+grammar com.poli.ads.expressoes1.Expressoes1 with org.eclipse.xtext.common.Terminals
+
+generate expressoes1 "http://www.poli.com/ads/expressoes1/Expressoes1"
+
+Programa:
+    exp = Expressao;
+
+Expressao:
+    {Expressao} exp= (
+       	 Atom
+         | ExpUnaria
+         | ExpBinaria
+    )bin=ExpBinaria?;
+
+Atom : {ExpAtom} (Valor);
+
+ExpUnaria:
+      {ExpNeg} "-" exp=Expressao
+    | {ExpNot} "not" exp=Expressao
+   	| {ExpLen} "length" exp=Expressao;
+
+ExpBinaria: 
+	  {ExpSoma}	"+" exp=Expressao
+	| {ExpSub}	"-" exp=Expressao
+	| {ExpAnd}	"and" exp=Expressao
+	| {ExpOr}	"or" exp=Expressao
+	| {ExpEq}	"==" exp=Expressao
+	| {ExpInc}	"++" exp=Expressao;
+
+Valor: ValorConcreto;
+ValorConcreto: VALOR_INTEIRO | VALOR_BOOLEANO |VALOR_STRING;
+
+//----------------------------------------------------------
+
+terminal VALOR_INTEIRO	: INT ;
+terminal VALOR_BOOLEANO	: "true" | "false" ;
+terminal VALOR_STRING	: STRING ;

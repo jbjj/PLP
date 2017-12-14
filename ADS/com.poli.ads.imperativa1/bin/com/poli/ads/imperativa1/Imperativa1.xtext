@@ -1,0 +1,9 @@
+grammar com.poli.ads.imperativa1.Imperativa1 with org.eclipse.xtext.common.Terminals
+
+generate imperativa1 "http://www.poli.com/ads/imperativa1/Imperativa1"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
