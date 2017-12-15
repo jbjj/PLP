@@ -12,12 +12,13 @@ grammar com.poli.ads.imperativa1.Imperativa1 with org.eclipse.xtext.common.Termi
 
 generate imperativa1 "http://www.poli.com/ads/imperativa1/Imperativa1"
 
+//-----------------------------------------------------------
+
 Programa:
 	cmd = Skip;
 
 Skip:
-	{Skip} skip = Comando?
-;
+	{Skip} skip = Comando? ;
 	
 Comando:
 	{Comando} cmd = (
@@ -29,7 +30,7 @@ Comando:
 	) cmdComp = ComandoComposto?;
 
 ComandoIO:
-	{IOWrite} "write" "(" exp = Expressao ")" 
+	 {IOWrite} "write" "(" exp = Expressao ")" 
 	|{IORead} "read" "(" ID ")";
 	
 Atribuicao: name = ID ":=" exp = Expressao;
@@ -75,10 +76,11 @@ ExpBinaria:
 	| {ExpEq}	"==" exp = Expressao
 	| {ExpInc}	"++" exp = Expressao;
 	
-Valor: ValorConcreto;
-ValorConcreto: VALOR_INTEIRO | VALOR_BOOLEANO | VALOR_STRING;
+Valor			: ValorConcreto;
+ValorConcreto	: VALOR_INTEIRO | VALOR_BOOLEANO | VALOR_STRING;
 
 //-----------------------------------------------------------
+
 terminal TIPO			: "string" | "int" | "boolean";
 terminal VALOR_INTEIRO	: INT ;
 terminal VALOR_BOOLEANO	: "true" | "false" ;
