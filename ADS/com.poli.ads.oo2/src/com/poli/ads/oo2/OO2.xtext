@@ -16,14 +16,14 @@ generate oO2 "http://www.poli.com/ads/oo2/OO2"
  Programa : "{" dec=ListaDeclaracaoOO ";" cmd=Skip "}";
 
  Comando: {Comando} cmd=(
-    Atribuicao
+    ExpCommand
 	| ComDeclaracao
 	| While
 	| IfThenElse
 	| IO
-	| New
-	| ChamadaMetodo
 	) cmdComp=ComandoComposto?;
+ 
+ ExpCommand: => LeftCommand | ChamadaMetodo;
  
  Skip: {Skip} skip=Comando?;
  
@@ -41,11 +41,11 @@ generate oO2 "http://www.poli.com/ads/oo2/OO2"
 	
  ListaExpressaoComposta: "," expComp=ListaExpressao;
 
- New: exp=LeftExpression ":=" "new" ID;
+LeftCommand	: exp=LeftExpression ":=" cmd=(New | Atribuicao);
+New			: "new" val=ID;
+Atribuicao	: {Atribuicao} exp=Expressao;
 
- Atribuicao: {Atribuicao} leftExp=LeftExpression ":=" exp=Expressao;
-
- IO : 
+IO : 
 	 {IOWrite} "write" "(" exp=Expressao ")" 
 	|{IORead} "read" "(" ID ")";
 
@@ -73,14 +73,11 @@ LeftExpression:
 		 {ExpId} ID acesso=AcessoAtributo?
 		|{ExpThis} VALOR_THIS acesso=AcessoAtributo;
 
-AcessoAtributo: 
-	{AcessoAtributo}"."ID acessoComp=AcessoComposto?;
+AcessoAtributo: {AcessoAtributo}"."ID acessoComp=AcessoComposto?;
 
 AcessoComposto: acesso=AcessoAtributo;
 
-ListaDeclaracaoOO:
-		   DecClasse
-		 | DecClasse "," lista=ListaDeclaracaoOO;
+ListaDeclaracaoOO: DecClasse ("," lista=ListaDeclaracaoOO)?;
 
 DecClasse: 
 	"classe" name=ID "{" decVar=DecVariavel ";" decProc=DecProcedimento "}" decClasseComposta=DeclaracaoClasseComposta;
@@ -94,18 +91,17 @@ DecVariavel: Tipo name=ID (
 
 DeclaracaoComposta: "," decl=DecVariavel;
 
-DecProcedimento:
-	"proc" name=ID "(" decLista=ListaDeclaracaoParametro ")""{" cmd=Skip"}";
+DecProcedimento: "proc" name=ID "(" decLista=ListaDeclaracaoParametro ")""{" cmd=Skip"}";
 
-ListaDeclaracaoParametro:
-	Tipo name=ID comp=ListaDeclaracaoComposta?;
+ListaDeclaracaoParametro: Tipo name=ID comp=ListaDeclaracaoComposta?;
 
-ListaDeclaracaoComposta:
-	"," decLista=ListaDeclaracaoParametro;
+ListaDeclaracaoComposta: "," decLista=ListaDeclaracaoParametro;
 
 Valor			: {Valor} ValorConcreto;
 ValorConcreto	: VALOR_INTEIRO | VALOR_BOOLEANO | VALOR_STRING | VALOR_NULL | VALOR_THIS;
 Tipo				: ID | TIPO_PRIMITIVO;
+
+//-------------------------------------------------------------------------------------------------------------
 
 terminal TIPO_PRIMITIVO	: "string" | "int" | "boolean";
 terminal VALOR_INTEIRO	: INT ;

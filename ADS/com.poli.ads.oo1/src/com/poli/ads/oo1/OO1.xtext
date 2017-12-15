@@ -15,16 +15,15 @@ generate oO1 "http://www.poli.com/ads/oo1/OO1"
 
 Programa : "{" dec=DecClasse ";" cmd=Skip "}";
 
-Comando:
-	{Comando} cmd=(
-		Atribuicao
+Comando: => cmd=(
+		ExpCommand
 		| ComDeclaracao
 		| While
 		| IfThenElse
 		| IO
-		| New
-		| ChamadaMetodo
 	) cmdComp=ComandoComposto?;
+	
+ExpCommand: => LeftCommand | ChamadaMetodo;
 	
 Skip: {Skip} skip=Comando?;
 
@@ -41,32 +40,29 @@ ChamadaMetodo : exp=Expressao "." ID "(" exps=ListaExpressao? ")";
 ListaExpressao			: exp=Expressao comp=ListaExpressaoComposta?;
 ListaExpressaoComposta	: "," expComp=ListaExpressao; 
 
-New: exp=LeftExpression ":=" "new" ID;
+LeftCommand	: leftExp=LeftExpression ":=" cmd=(New | Atribuicao);
+New			: {New} "new" val=ID;
+Atribuicao 	: {Atribuicao} exp=Expressao;
 
-Atribuicao : {Atribuicao} leftExp=LeftExpression ":=" exp=Expressao;
+LeftExpression : 
+		 {ExpId} name=ID acesso=AcessoAtributo?
+		|{ExpThis} name=VALOR_THIS acesso=AcessoAtributo;
+
+AcessoAtributo: {AcessoAtributo} "."attr=ID acessoComp=AcessoComposto?;
+AcessoComposto: acesso=AcessoAtributo;
 
 IO : 
 	 {IOWrite} "write" "(" exp=Expressao ")" 
 	|{IORead} "read" "(" ID ")";
 
-Expressao:
-	{Expressao} exp=(
+Expressao: => exp=(
 		Valor
 		| ExpUnaria
 		| LeftExpression
 	) bin=ExpBinaria?;
 
-LeftExpression : 
-		 {ExpId} ID acesso=AcessoAtributo?
-		|{ExpThis} VALOR_THIS acesso=AcessoAtributo;
-
-AcessoAtributo: {AcessoAtributo}"."ID acessoComp=AcessoComposto?;
-
-AcessoComposto: acesso=AcessoAtributo;
-
 DecClasse : 
-	"classe" name=ID "{" decVar=DecVariavel ";" decProc=DecProcedimento "}" 
-	decClasseComposta=DeclaracaoClasseComposta;
+	"classe" name=ID "{" decVar=DecVariavel ";" decProc=DecProcedimento "}" decClasseComposta=DeclaracaoClasseComposta;
 
 DeclaracaoClasseComposta: "," decl=DecClasse;
 

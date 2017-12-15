@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtext.util,
  org.eclipse.xtend.lib,
- org.eclipse.emf.common
+ org.eclipse.emf.common,
+ org.antlr.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.poli.ads.oo2.generator,
  com.poli.ads.oo2.oO2.impl,
@@ -22,5 +23,7 @@ Export-Package: com.poli.ads.oo2.generator,
  com.poli.ads.oo2.services,
  com.poli.ads.oo2.oO2,
  com.poli.ads.oo2.validation,
- com.poli.ads.oo2.oO2.util
+ com.poli.ads.oo2.oO2.util,
+ com.poli.ads.oo2.parser.antlr.internal,
+ com.poli.ads.oo2.parser.antlr
 Import-Package: org.apache.log4j

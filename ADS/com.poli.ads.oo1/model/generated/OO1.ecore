@@ -12,6 +12,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="cmdComp" eType="#//ComandoComposto"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpCommand"/>
   <eClassifiers xsi:type="ecore:EClass" name="Skip">
     <eStructuralFeatures xsi:type="ecore:EReference" name="skip" eType="#//Comando"
         containment="true"/>
@@ -35,7 +36,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="then" eType="#//Skip" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="#//Skip" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ChamadaMetodo">
+  <eClassifiers xsi:type="ecore:EClass" name="ChamadaMetodo" eSuperTypes="#//ExpCommand">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exps" eType="#//ListaExpressao"
@@ -51,14 +52,31 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="expComp" eType="#//ListaExpressao"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="New">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//LeftExpression"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Atribuicao">
+  <eClassifiers xsi:type="ecore:EClass" name="LeftCommand" eSuperTypes="#//ExpCommand">
     <eStructuralFeatures xsi:type="ecore:EReference" name="leftExp" eType="#//LeftExpression"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cmd" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="New">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="val" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Atribuicao">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LeftExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="acesso" eType="#//AcessoAtributo"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AcessoAtributo">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="acessoComp" eType="#//AcessoComposto"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AcessoComposto">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="acesso" eType="#//AcessoAtributo"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IO"/>
@@ -66,18 +84,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bin" eType="#//ExpBinaria"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="LeftExpression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="acesso" eType="#//AcessoAtributo"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AcessoAtributo">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="acessoComp" eType="#//AcessoComposto"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AcessoComposto">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="acesso" eType="#//AcessoAtributo"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DecClasse">
@@ -130,13 +136,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="Valor">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="val" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpId" eSuperTypes="#//LeftExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpThis" eSuperTypes="#//LeftExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="IOWrite" eSuperTypes="#//IO">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IORead" eSuperTypes="#//IO"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ExpId" eSuperTypes="#//LeftExpression"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ExpThis" eSuperTypes="#//LeftExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="ExpNeg" eSuperTypes="#//ExpUnaria"/>
   <eClassifiers xsi:type="ecore:EClass" name="ExpNot" eSuperTypes="#//ExpUnaria"/>
   <eClassifiers xsi:type="ecore:EClass" name="ExpLen" eSuperTypes="#//ExpUnaria"/>
