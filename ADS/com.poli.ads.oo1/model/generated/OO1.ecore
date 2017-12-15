@@ -127,7 +127,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Valor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Valor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="val" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IOWrite" eSuperTypes="#//IO">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//Expressao"
         containment="true"/>

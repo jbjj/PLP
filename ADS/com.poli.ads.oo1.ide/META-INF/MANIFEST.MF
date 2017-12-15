@@ -9,3 +9,4 @@ Require-Bundle: com.poli.ads.oo1,
  org.eclipse.xtext.ide,
  org.eclipse.xtext.xbase.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+

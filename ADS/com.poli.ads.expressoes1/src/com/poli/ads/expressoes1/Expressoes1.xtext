@@ -18,11 +18,10 @@ Programa:
 Expressao:
     {Expressao} exp= (
        	 Atom
-         | ExpUnaria
-         | ExpBinaria
-    )bin=ExpBinaria?;
+         | ExpUnaria   
+    ) bin=ExpBinaria?;
 
-Atom : {ExpAtom} (Valor);
+Atom : {ExpAtom} val=Valor;
 
 ExpUnaria:
       {ExpNeg} "-" exp=Expressao
